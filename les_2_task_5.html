@@ -1,0 +1,39 @@
+﻿<!--5. Реализовать основные 4 арифметические операции в виде функций 
+    с двумя параметрами. Обязательно использовать оператор return. -->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_2_task_5</title>
+</head>
+<body>
+    <script>
+        function summ(a, b) {
+            return a + b
+        }
+        function dfrn(a, b) {
+            return a - b
+        }
+        function mult(a, b) {
+            return a * b
+        }
+        function divd(a, b) {
+            if (b != 0) {
+                return a / b
+            } else
+                return 'Zero division error'
+        }
+
+        for (let i = 0; i < 10; i++) {
+            a = Math.floor(Math.random() * 10)
+            b = Math.floor(Math.random() * 10)
+            alert('a, b = ' + a + ', ' +  b)
+            alert('sum ' + summ(a, b))
+            alert('difference ' + dfrn(a, b))
+            alert('product ' + mult(a, b))
+            alert('ratio ' + divd(a, b))
+        }
+    </script>
+</body>
+</html>

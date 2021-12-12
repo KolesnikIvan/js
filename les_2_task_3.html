@@ -1,0 +1,33 @@
+﻿<!--3. Объявить две целочисленные переменные a и b и задать им произвольные начальные значения. Затем написать скрипт, который работает по следующему принципу:
+если a и b положительные, вывести их разность;
+если а и b отрицательные, вывести их произведение;
+если а и b разных знаков, вывести их сумму; ноль можно считать положительным числом.-->
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_2_task_3</title>
+</head>
+<body>
+    <script>
+        /*document.write("Hello world!")
+        document.write('<h1>Hello world 3!</h1>')*/
+        var a = Math.floor(Math.random() * 10) * ((Math.random() > 0.5) ? 1 : -1)
+        var b = Math.floor(Math.random() * 10) * ((Math.random() > 0.5) ? 1 : -1)
+        alert('a=' + a + ', b=' + b)
+        if (a >= 0 && b >= 0) {
+            alert('a - b = ' + a + ' - ' + b + ' = ' + String(a - b))
+        } else if (a < 0 && b < 0) {
+            alert('a * b = (' + a + ') * (' + b + ') = ' + String(a * b))
+        } else {
+            if (a < 0) {
+                alert('a + b = (' + a + ') + ' + b + ' = ' + String(a + b))
+            } else {
+                alert('a + b = ' + a + ' + (' + b + ') = ' + String(a + b))
+            }
+        }
+    </script>
+</body>
+</html>

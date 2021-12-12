@@ -1,0 +1,22 @@
+﻿<!--7. Сравнить null и 0. Попробуйте объяснить результат.-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_2_task_7</title>
+</head>
+<body>
+    <script>
+        alert('null == 0 ' + (null == 0))
+        alert('null == +0 ' + (null == +0))
+        alert('null === 0 ' + (null === 0))
+        alert('null == undefined ' + (null == undefined))
+        alert('null <= 0 ' + (null <= 0))
+        alert('null >= 0 ' + (null >= 0))
+        // оператор '==' не выполняет преобразования типов, значит null = undefined
+        // поэтому и null не равно нолю без преобразования типов
+        // операторы >, <, <=, >= преобразуют типы, поэтому null превращается в 0, поэтому может быть больше или равно нолю
+    </script>
+</body>
+</html>

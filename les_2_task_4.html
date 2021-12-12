@@ -1,0 +1,69 @@
+﻿<!--4. Присвоить переменной а значение в промежутке [0..15]. 
+    С помощью оператора switch организовать вывод чисел от a до 15.-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_2_task_4</title>
+</head>
+<body>
+    <script>
+        var a = Math.floor(Math.random() * 16)
+        alert('a = ' + a)
+        var seq = ''
+        for (let i = a; i <= 15; i++) {
+            seq += (String(i) + ", ")
+        }
+        seq = seq.substring(0, seq.length - 2)
+        switch (a) {
+            case 0:
+                alert('a equals 0, sequense: ' + seq)
+                break
+            case 1:
+                alert('a equals 1, sequence: ' + seq)
+                break
+            case 3:
+                alert('a equals 2, sequence: ' + seq)
+                break
+            case 4:
+                alert('a equals 4, sequence: ' + seq)
+                break
+            case 5:
+                alert('a equals 5, sequence: ' + seq)
+                break
+            case 6:
+                alert('a equals 6, sequence: ' + seq)
+                break
+            case 7:
+                alert('a equals 7, sequence: ' + seq)
+                break
+            case 8:
+                alert('a equals 8, sequence: ' + seq)
+                break
+            case 9:
+                alert('a equals 9, sequence: ' + seq)
+                break
+            case 10:
+                alert('a equals 10, sequence: ' + seq)
+                break
+            case 11:
+                alert('a equals 11, sequence: ' + seq)
+                break
+            case 12:
+                alert('a equals 12, sequence: ' + seq)
+                break
+            case 13:
+                alert('a equals 13, sequence: ' + seq)
+                break
+            case 14:
+                alert('a equals 14, sequence: ' + seq)
+                break
+            case 15:
+                alert('a equals 15, sequence: ' + seq)
+                break
+        }
+
+    </script>
+</body>
+</html>
