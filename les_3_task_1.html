@@ -1,0 +1,40 @@
+﻿<!--1. С помощью цикла while вывести все простые числа в промежутке от 0 до 100.-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_3_task_1</title>
+</head>
+<body>
+    <script>
+        function is_simple(num) {//debugger;
+            if (num == 0 || num == 1) {
+                return false
+            } else {
+                let is_simple = true
+                let i = 2
+                while (i < num) {
+                    if (num % i == 0) {
+                        is_simple = false
+                        break
+                    }
+                    i += 1
+                }
+                return is_simple
+            }
+        }
+        let i = 1
+        simples = new Array()
+        while (i <= 100) {
+            if (is_simple(i)) {
+                simples.push(i)
+                console.log(i)
+            }
+            i += 1
+        }
+        alert(`simple numbers less then 100 are ${simples}`)
+
+    </script>
+</body>
+</html>
