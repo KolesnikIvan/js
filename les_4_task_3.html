@@ -1,0 +1,42 @@
+﻿<!--3. Подумать над глобальными сущностями. 
+    К примеру, сущность «Продукт» в интернет-магазине актуальна не только для корзины, 
+    но и для каталога. 
+    Стремиться нужно к тому, чтобы объект «Продукт» имел единую 
+    структуру для различных модулей сайта, но в разных местах 
+    давал возможность вызывать разные методы.-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_4_task_3</title>
+</head>
+<body>
+    <script>
+        let product = {
+            'cost': null,
+            'name': null,
+            'category': null,
+            'color': null,
+            'article': null,
+            'brand': null,
+            'supplier': null,
+            'photos': null,
+            'videos': null,
+            'size': null,
+            'weight': null,
+            addToBasket(): {},
+            removeFromBasket(): {},
+            applyPromoCode(): {},
+            accountDeliveryCost(): {},
+            findAnalogue(): {},
+            findAccesory(): {},
+            re_countSize(): {}, 
+            findStarsInInstargramWhoWearsTheSame(): {}, 
+            findTheNearestStoreage(): {},
+        }
+        /*атрибуты-поля выражают потребительскоие свойства и связанную информацию; 
+         *методы выполняют добавление, поиски, вычисления
+    </script>
+</body>
+</html>
