@@ -1,0 +1,59 @@
+﻿<!--2. Есть сущность корзины. Реализовать функционал подсчета стоимости корзины 
+    в зависимости от находящихся в ней товаров. 
+    Товары в корзине хранятся в массиве. 
+    Задачи:
+a) Организовать такой массив для хранения товаров в корзине;
+b) Организовать функцию countcardPrice, которая будет считать стоимость корзины.-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_3_task_2</title>
+</head>
+<body>
+    <script>
+        let card = new Array()  //корзина
+        let alphabet = 'absdefghijklmnopqrstuvwxyz'  //буквы для генерации названий товаров
+        let size = 5 + Math.floor(Math.random() * 5) //задаем размер массива
+        let i = 1
+        let len = 0  //задается длина названия товара
+        let good = ''
+        let pos = 0
+        while (i < size) {
+            // цикл заполнения корзины товаров
+            len = Math.floor(Math.random() * 7) + 1  //задается длина названия товара
+            good = ''
+            for (let j = 0; j < len; j++) {
+                pos = Math.floor(Math.random() * 26)
+                good += alphabet[pos]
+            }
+            let cost = Math.floor(Math.random() * 100 + 1)
+            card.push([good, cost])
+            console.log(`товар ${good} стоит ${cost}`)
+            i += 1
+        }
+        console.log(card)
+        // alert(card)
+        function countCardPrice(card) {
+            let total_cost = 0
+            for (let i = 0; i < card.length; i++) {
+                total_cost += card[i][1]
+                console.log(total_cost)
+                // alert(total_cost)
+            }
+            console.log('стоимость корзины ' + total_cost)
+        }
+        function countCardPriseTest(card){
+            let total_cost = 0
+            for (let item of card) {
+                total_cost += item[1]
+                console.log(total_cost)
+            }
+            console.log(`test: стоимость корзины ${total_cost}`)
+        }
+        countCardPrice(card)
+        countCardPriseTest(card)
+    </script>
+</body>
+</html>

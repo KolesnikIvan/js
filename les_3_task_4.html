@@ -1,0 +1,28 @@
+﻿<!--4 Нарисовать пирамиду с помощью console.log, как показано на рисунке, 
+    только у вашей пирамиды должно быть 20 рядов, а не 5:
+x
+xx
+xxx
+xxxx
+xxxxx-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_3_task_4</title>
+</head>
+<body>
+    <script>
+        NUM_SERIES = 20
+        function printPyramid(num_series) {
+            let string = ''
+            for (let i = 1; i <= num_series; i++) {
+                string += 'x'
+                console.log(string)
+            }
+        }
+        printPyramid(NUM_SERIES)
+    </script>
+</body>
+</html>
