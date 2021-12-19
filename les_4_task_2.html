@@ -1,0 +1,73 @@
+﻿<!--2. Продолжить работу с интернет-магазином:
+В прошлом домашнем задании вы реализовали корзину на базе массивов. 
+Какими объектами можно заменить их элементы?
+Реализуйте такие объекты.
+Перенести функционал подсчета корзины на объектно-ориентированную базу.-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        //объект карточка товара может содержать размер, цвет, бренд, 
+        //наименование производителя и т.д.
+        //ну, наверное, надо пользователю показать, что он выбрал перед оплатой
+        //только зачем это передавать в функцию?
+        const MANUFACTURERS = ['Ivanovo', 'Kashmir', 'China']
+        const IMPORTERS = ['importer1', 'importer2', 'importer3']
+        const BRANDS = ['Gucci', 'Dolce&Gabana', 'Givenchy']
+        const COLORS = ['yellow', 'red', 'blue', 'white']
+
+        let card = new Array()  //корзина
+        let alphabet = 'absdefghijklmnopqrstuvwxyz'  //буквы для генерации названий товаров
+        let size = 5 + Math.floor(Math.random() * 5) //задаем размер массива
+        let i = 1
+        let len = 0  //задается длина названия товара
+        let good = { 'brand': null, 'color': null, 'size': 0, 'importer': 0, 'manufacturer': null }
+        let pos = 0
+
+        while (i < size) {
+            // цикл заполнения корзины товаров
+            good = {
+                'brand': BRANDS[Math.floor(Math.random() * BRANDS.length)],
+                'color': COLORS[Math.floor(Math.random() * COLORS.length)],
+                'size': 30 + Math.floor(Math.random() * 20),
+                'importer': IMPORTERS[Math.floor(Math.random() * IMPORTERS.length)],
+                'manufacturer': MANUFACTURERS[Math.floor(Math.random() * MANUFACTURERS.length)],
+            }
+            for (let j = 0; j < len; j++) {
+                pos = Math.floor(Math.random() * 26)
+                good += alphabet[pos]
+            }
+            let cost = Math.floor(Math.random() * 100 + 1)
+            card.push([good, cost])
+            console.log(`товар ${good} стоит ${cost}`)
+            i += 1
+        }
+        console.log(card)
+        // alert(card)
+        function countCardPrice(card) {
+            let total_cost = 0
+            for (let i = 0; i < card.length; i++) {
+                total_cost += card[i][1]
+                console.log(total_cost)
+                // alert(total_cost)
+            }
+            console.log(`стоимость корзины ${total_cost}`)
+        }
+        function countCardPriseTest(card) {
+            let total_cost = 0
+            for (let item of card) {
+                total_cost += item[1]
+                console.log(total_cost)
+            }
+            console.log(`test: стоимость корзины ${total_cost}`)
+        }
+        countCardPrice(card)
+        countCardPriseTest(card)
+    </script>
+</body>
+</html>
