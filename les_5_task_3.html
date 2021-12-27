@@ -1,0 +1,175 @@
+﻿<!--3. Заполнить созданную таблицу буквами, отвечающими за шахматную фигуру, 
+    например К – король, Ф – ферзь и т.п., причем все фигуры должны стоять 
+    на своих местах и быть соответственно черными и белыми.-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_5_task_3</title>
+</head>
+<body>
+    <!--<table id="chessTable" border="1" height="400" width="400" cellspacing="0">
+        <tr >
+            <td></td>
+            <td bgcolor="green"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>-->
+    <script>
+        function createTable(wd, hg) {
+            var size = 8
+            var tb = document.createElement('table')
+            var text = ''//`<table id=&quot;chessTable2&quot; border=&quot;1&quot; width=&quot;${wd}&quot; height=&quot;${hg}&quot; cellspacing=&quot;0&quot;>`
+            for (let i = 0; i <= size; i++) {
+                if (i == 0) {
+                    text += '<tr height="10">'
+                } else {
+                    text += '<tr>'
+                }
+                for (let j = 0; j <= size; j++) {
+                    if (j == 0) {
+                        text += '<td width="1">'
+                    } else if ((i != 0 && j != 0) && ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0))) {
+                        text += '<td width="20" bgcolor="green">'
+                    } else {
+                        if (i != 0) {
+                            text += '<td width="20" bgcolor="red">'
+                        } else {
+                            text += '<td width="20">'
+                        }
+
+                    }
+
+                    text += '</td>'
+                }
+                text += '</tr>'
+            }
+            //text += '</table>'
+            tb.innerHTML = text
+            tb.setAttribute("id", "chessTable2")
+            tb.setAttribute("width", 450)
+            tb.setAttribute("height", 450)
+            tb.setAttribute("border", 1)
+            document.body.append(tb)
+        }
+        function writeChessFiguresIntoTable(table) {
+            var size = 8
+            var tbody = table.children[0]
+            var tbRows = tbody.children
+            for (let i = 1; i <= size; i++) {
+                tbRows[2].children[i].innerText = 'П' //пешки
+                tbRows[size - 1].children[i].innerHTML = '<font color="white">П</font'
+                if (i == 1 || i == size) {
+                    tbRows[i].children[1].innerText = 'T'
+                    tbRows[i].children[size].innerHTML = 'T'
+                    tbRows[i].children[2].innerText = 'Л'
+                    tbRows[i].children[size - 1].innerText = 'Л'
+                    tbRows[i].children[3].innerText = 'О'
+                    tbRows[i].children[size - 2].innerText = 'O'
+                    tbRows[i].children[4].innerText = i == 1 ? 'Ф' : 'К'
+                    tbRows[i].children[size - 3].innerText = i == 1 ? 'K' : 'Ф'
+                 }
+            }
+            tRows[size].setAttribute("color", "white") //не сработало, хотел текст задать строке
+            table.setAttribute("text-align", "center") //не сраобтало, хотел выравнивание настроить
+        }
+        createTable(450, 450)
+        writeChessFiguresIntoTable(document.getElementById("chessTable2"))
+    </script>
+</body>
+</html>

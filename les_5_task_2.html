@@ -1,0 +1,205 @@
+﻿<!--2. Сделать генерацию корзины динамической: верстка корзины не должна находиться в HTML-структуре.
+    Там должен быть только div, в который будет вставляться корзина, сгенерированная на базе JS:
+    4. Сделать так, чтобы товары в каталоге выводились при помощи JS:
+    Создать массив товаров (сущность Product);
+    При загрузке страницы на базе данного массива генерировать вывод из него. 
+    HTML-код должен содержать только div id=”catalog” без вложенного кода. 
+    Весь вид каталога генерируется JS.
+-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_5_task_2</title>
+</head>
+<body>
+    <button id="show_catalogue">show_catalogue</button>
+    <script>
+        //набор возможных расцветок товаров
+        const COLOR = ['red', 'blue', 'grey', 'orange', 'brown', 'green']
+
+        //объявляю массив товаров в корзине
+        var basketList = []
+        //задаю количество товаров в каталоге и их массив
+        let numProds = Math.floor(3 + Math.random() * 6)
+        var prods = []
+
+        //создается контейнер, который будет содержать две области: каталог и корзину
+        var container = document.createElement('div')
+        container.setAttribute('id', 'conatiner')
+        container.setAttribute('style', 'display: flex; width: 90%; border: 1px solid black;')
+        document.body.append(container)
+
+        //здесь верстается каталог; это div, содержащий заголовок; впоследствии заполняется "товарами"
+        var catalogue = document.createElement("div")
+        catalogue.setAttribute('id', 'cat')
+        catalogue.setAttribute('style', 'width:50%; border:1px solid black;')
+        let catHeader = document.createElement('h3')
+        catHeader.innerText = 'Catalogue'
+        catalogue.append(catHeader)
+
+        //здесь верстается корзина;
+        //это div basketHeader, где есть еще div для заголовка и кнопки очистки
+        //и еще один div basketContent для товаров, попавших в корзину
+        var basket = document.createElement('div')
+        basket.setAttribute('id', 'basket')
+        basket.setAttribute('style', 'width:50%; border:1px solid black;')
+        var basketHeader = document.createElement('div')
+        let bHeader = document.createElement('h3')
+        bHeader.innerText = 'Basket'
+        basketHeader.append(bHeader)
+        var p1 = document.createElement('p')
+        p1.setAttribute('id', 'totalNumberOfGoods')
+        p1.innerText = `всего товаров: ${basketList.length}`
+        var p2 = document.createElement('p')
+        p2.innerText = `общая стоимость: ${getBasketTotalCoast()}` // ${() => { let a = 0; for (let pr of basketList) { a += pr.price }; return a}}`
+        p2.setAttribute('id', 'totalCost')
+        bHeader.append(p1, p2)
+
+        var btn = document.createElement('button')
+        btn.setAttribute('id', 'btnClearBasket')
+        btn.innerText = 'clear_the_basket'
+        basketHeader.append(btn)
+        basket.append(basketHeader)
+        var basketContent = document.createElement('div')
+        basketContent.setAttribute('id', 'basketContent')
+        basket.append(basketContent)
+
+
+        function showCatalogueAndBasket() {
+            //здесь формируются и вносятся в каталог карточки товаров,
+            //исходя из заданного в глобальном скопе количества товаров,
+            if (document.getElementById('cat') == null) {
+
+                for (let i = 0; i <= numProds; i++) {
+                    let text = ''
+                    let color = COLOR[Math.floor(Math.random() * COLOR.length)]
+                    let price = Math.floor(1 + Math.random() * 99)
+                    prods.push({
+                        'product': i,
+                        'brand': 'brand' + i,
+                        'color': color,
+                        'price': price
+                    })
+
+                    text += `<h4>Товар ${prods[i].product + 1}</h4>
+                                        <p>Бренд: ${prods[i].brand}</p>
+                                        <p>Цвет:</p> <font color="${prods[i].color}">${color}</font>
+                                        <p>Цена: ${prods[i].price}</p>`
+                    let product = document.createElement("div")
+                    product.setAttribute("id", 'product_' + i)
+                    product.setAttribute("style", `border: 1px solid ${prods[i].color}; padding:5px; margin: 5px;`)
+                    product.innerHTML = text
+
+                    let button = document.createElement("button")
+                    button.setAttribute("type", "button")
+                    button.setAttribute("id", "button" + i)
+                    button.innerText = "Добавить в корзину"
+                    product.append(button)
+
+
+                    catalogue.append(product)
+                }
+                container.append(catalogue)
+                container.append(basket)
+                refreshBasket()
+                console.log('Container is shown')
+
+                //созданным кнопкам придаются обработчики
+                var btns = document.querySelectorAll('[id^=button]')
+                //console.log(btns)
+                for (let item of btns) {
+                    item.addEventListener('click', addProductIntoBasket)
+                }
+                document.getElementById('btnClearBasket').addEventListener('click', clearBasket)
+            } else {
+                console.log('Container was yet shown earlier')
+            }
+        }
+
+        function refreshBasket() {
+            // запустить проверку корзины, и, если непустая, отобразить, иначе написать пусто
+            console.log('refresh is entered')
+            console.log(basketList.length)
+            if (basketList.length == 0) {
+                //document.getElementById('basketContent').innerHTML = ''  //clear the basket
+                //document.getElementById('basketContent').innerHTML = '<p>basket is empty</p>'
+                basketContent.innerHTML = ''  //clear the basket
+                p1.innerText = 'всего товаров: корзина пуста'
+                p2.innerText = `общая стоимость: 0`
+            } else {
+                basketContent.innerHTML = ''  //clear the basket
+                for (let i = 0; i < basketList.length; i++) {
+                    let basketItem = document.createElement('div')
+                    let text = ''
+                    basketItem.setAttribute('id', `basketItem${i}`)
+                    text += `<h3>Товар ${basketList[i].product + 1}</h3>
+                                          <p>Бренд: ${basketList[i].brand}</p>
+                                          <p>Цвет:</p> <font color="${basketList[i].color}">${basketList[i].color}</font>
+                                          <p>Цена: ${basketList[i].price}</p><hr>`
+                    basketItem.innerHTML = text
+                    let btn = document.createElement('button')
+                    btn.setAttribute('id', `removeBtn${i}`)
+                    btn.innerText = `удалить товар ${i + 1} из корзины`
+                    basketItem.append(btn)
+                    basketContent.append(basketItem)
+                }
+                let removeButtons = document.querySelectorAll('[id^=removeBtn]')
+                for (let btn of removeButtons) {
+                    btn.addEventListener('click', removeProductFromBasket)
+                }
+            }
+            p1.innerText = `всего товаров: ${basketList.length}`
+            p2.innerText = `общая стоимость: ${getBasketTotalCoast()}` // ${() => { let a = 0; for (let pr of basketList) { a += pr.price }; return a}}`
+            console.log('basket is refreshed')
+        }
+
+        function getBasketTotalCoast() {
+            //подсчет суммы цен товаров в корзине
+            let tc = 0
+            for (let pr of basketList) {
+                tc += pr.price
+            }
+            return tc
+        }
+        function addProductIntoBasket(e) {
+            //здесь происходит получение идентификатора кнопки, которая сработала
+            //и, одновременно, id выбранного товара и добавление этого товара в массив-корзину товаров
+            console.log(e)
+            let id = e.target.id.substring(6)  //mask 'button0'
+            // button's and product's numbers are the same
+            console.log(id)
+            basketList.push(prods[id])
+            refreshBasket()
+            console.log('Item is added into basket')
+            for (let pr of basketList) {
+                console.log(pr)
+            }
+        }
+        function removeProductFromBasket(e) {
+            let id = e.target.id.substring(9)  //mask 'removeBtn0'
+            console.log(id)
+            basketList.splice(prods[id], 1)
+            refreshBasket()
+            console.log('Item is removed from basket')
+        }
+
+        function clearBasket() {
+            //очистка корзины
+            console.log('clear basket button is clicked')
+            basketList = []
+            //basketContent.innerHTML = ''
+            refreshBasket()
+            console.log(basketList.length)
+        }
+        function addHandlersToShowButton() {
+            //это обработчик кнопки показа каталога и корзины
+            document.getElementById('show_catalogue').addEventListener('click', showCatalogueAndBasket)
+        }
+        //функция показа каталога и корзины соединяется с соответствующей кнопкой по загрузке окна
+        window.addEventListener('load', addHandlersToShowButton)
+
+    </script>
+</body>
+</html>
