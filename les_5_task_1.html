@@ -1,0 +1,46 @@
+﻿<!--1. Создать функцию, генерирующую шахматную доску. 
+    Можно использовать любые html-теги. 
+    Доска должна быть верно разлинована на черные и белые ячейки. 
+    Строки должны нумероваться числами от 1 до 8, 
+    столбцы — латинскими буквами A, B, C, D, E, F, G, H.-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_5_task_1</title>
+</head>
+<body>
+    <canvas id="canvasId" width="420" height="420" style="border: 1px solid red;"></canvas>
+    <script>
+        var canvas = document.getElementById('canvasId')
+        var ctx = canvas.getContext("2d")
+
+        function squares(x0, y0, wd, hg) {
+            let letters = 'ABCDEFGH'
+            let wdi = (wd - 2 * x0) / 8
+            let hgi = (hg - 2 * y0) / 8
+            //ctx.strokeRect(x0, y0, wd - 2 * x0, hg - 2 * y0)
+            ctx.font = `${x0 - 1}px Algerian`
+            for (let i = 0; i <= 7; i++) {
+                ctx.fillText(`${8 - i}`, x0 / 3, y0 + (i + 0.5) * hgi)
+                ctx.fillText(`${letters[i]}`, x0 + (i + 0.5) * wdi, 0.8 * y0)
+                for (let j = 0; j <= 7; j++) {
+                    if (i == j) {
+                        ctx.strokeStyle = "red"
+                        ctx.fillStyle = "red"
+                    } else if ((i % 2 != 0 && j % 2 == 0) || (i % 2 == 0 && j % 2 != 0)) {
+                        ctx.strokeStyle = "black"
+                        ctx.fillStyle = "black"
+                    } else {
+                        ctx.strokeStyle = "green"
+                        ctx.fillStyle = "green"
+                    }
+                    ctx.fillRect(x0 + i * wdi, y0 + j * hgi, wdi, hgi)
+                }
+            }
+        }
+        squares(10, 10, canvas.width, canvas.height)
+    </script>
+</body>
+</html>
