@@ -1,0 +1,270 @@
+﻿<!--Реализовать страницу корзины. Добавить возможность не только смотреть состав корзины, 
+    но и редактировать его, обновляя общую стоимость или выводя сообщение «Корзина пуста»:
+1.1 Сделать отдельные блоки «Состав корзины», «Адрес доставки», «Комментарий»;
+1.2 Сделать эти поля сворачиваемыми;
+1.3 Заполнять поля по очереди, то есть давать посмотреть состав корзины, внизу которого есть кнопка «Далее». 
+    Если нажать ее, сворачивается «Состав корзины» и открывается «Адрес доставки» и так далее.
+-->
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>les_6_task_2</title>
+    <script src="les_6_task_2_modal.js"></script>
+    <script src="AccordionToggle.js"></script>
+</head>
+<body>
+    <!--<button id="show_catalogue">show_catalogue</button>-->
+    <!--создается контейнер, который будет содержать две области: каталог и корзину-->
+    <div id="conatiner" style="display: flex; width: 90%; border: 1px solid black;">
+        <!--здесь верстается каталог; это div, содержащий заголовок; впоследствии заполняется "товарами"-->
+        <div id="cat" style="width:50%; border:1px solid black;">
+            <h3>Catalogue</h3>
+
+        </div>
+        <div id="basket" style="width:50%; border:1px solid black;">
+            <div>
+                <h3>
+                    Basket
+                    <p id="totalNumberOfGoods">всего товаров: 0</p>
+                    <p id="totalCost">общая стоимость: 0</p>
+                </h3>
+                <button id="btnClearBasket">clear_the_basket</button>
+            </div>
+            <div id="basketAccordionContainer">
+                <!--начиная с этого уровня accodion from https://getbootstrap.com/docs/5.0/components/accordion/-->
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Состав корзины<!--Accordion Item #1-->
+                            </button>
+                        </h2>
+                        <div id="basketContent" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <!--<div class="accordion-body">
+                                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>-->
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Адрес доставки<!--Accordion Item #2-->
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            Введите адрес доставки
+                            <input type="text" />
+                            <!--<div class="accordion-body">
+                                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>-->
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Комментарий<!--Accordion Item #3-->
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            Здесь могут располагаться комментарии
+                            <input type="text" />
+                            <!--<div class="accordion-body">
+                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>-->
+                        </div>
+                    </div>
+                </div><!--Accordion-->
+            </div><!--basketAccodionContainer-->
+        </div><!--basket-->
+    </div> <!--container-->
+
+
+    <script>
+        //набор возможных расцветок товаров
+        const COLOR = ['red', 'blue', 'grey', 'orange', 'brown', 'green']
+
+        //объявляю массив товаров в корзине
+        var basketList = []
+        //задаю количество товаров в каталоге и их массив
+        let numProds = Math.floor(3 + Math.random() * 6)
+        var prods = []
+
+        function showCatalogue() {
+            //здесь формируются и вносятся в каталог карточки товаров,
+            //исходя из заданного в глобальном скопе количества товаров,
+            let catalogue = document.getElementById('cat')
+
+            for (let i = 0; i <= numProds; i++) {
+                let text = ''
+                let color = COLOR[Math.floor(Math.random() * COLOR.length)]
+                let price = Math.floor(1 + Math.random() * 99)
+                prods.push({
+                    'product': i,
+                    'brand': 'brand' + i,
+                    'color': color,
+                    'price': price
+                })
+
+                text += `<h4>Товар ${prods[i].product}</h4>
+                                                <p>Бренд: ${prods[i].brand}</p>
+                                                <p>Цвет:</p> <font color="${prods[i].color}">${color}</font>
+                                                <p>Цена: ${prods[i].price}</p>`
+                let product = document.createElement("div")
+                product.setAttribute("id", 'product_' + i)
+                product.setAttribute("style", `border: 1px solid ${prods[i].color}; padding:5px; margin: 5px;`)
+                product.innerHTML = text
+
+                //для прозрачности иконку, вызывающую модальное окно с другими
+                //картинками будет добавлена только первому товару
+                if (i == 0) {
+                    let icon = document.createElement('img')
+                    let imgNum = Math.floor(1 + Math.random() * 3)
+                    icon.setAttribute('id', 'miniIcon')
+                    icon.setAttribute('src', `box${imgNum}.jpg`)
+                    icon.style.width = '40%'
+                    //icon.setAttribute('onload', 'showModal()')
+                    product.append(icon)
+                }
+                let button = document.createElement("button")
+                button.setAttribute("type", "button")
+                button.setAttribute("id", "button" + i)
+                button.innerText = "Добавить в корзину"
+                product.append(button)
+
+                catalogue.append(product)
+
+            }
+            //container.append(catalogue)
+            //container.append(basket)
+            refreshBasket()
+            console.log('Container is filled')
+
+            //созданным кнопкам придаются обработчики
+            var btns = document.querySelectorAll('[id^=button]')
+            console.log(btns)
+            for (let item of btns) {
+                if (item.id != 'buttonX') {
+                    item.addEventListener('click', addProductIntoBasket)
+                }
+            }
+            document.getElementById('btnClearBasket').addEventListener('click', clearBasket)
+            console.log(document.getElementById('miniIcon'))
+            document.getElementById('miniIcon').addEventListener('click', showModal)
+
+
+        }
+
+        function refreshBasket() {
+            // запустить проверку корзины, и, если непустая, отобразить, иначе написать пусто
+            console.log('refresh is entered')
+            console.log(basketList.length)
+            if (basketList.length == 0) {
+                //document.getElementById('basketContent').innerHTML = ''  //clear the basket
+                //document.getElementById('basketContent').innerHTML = '<p>basket is empty</p>'
+                basketContent.innerHTML = ''  //clear the basket
+                document.getElementById("totalNumberOfGoods").innerText = 'всего товаров: корзина пуста'
+                document.getElementById("totalCost").innerText = `общая стоимость: 0`
+            } else {
+                basketContent.innerHTML = ''  //clear the basket
+                for (let i = 0; i < basketList.length; i++) {
+                    let basketItem = document.createElement('div')
+                    let text = ''
+                    basketItem.setAttribute('id', `basketItem${i}`)
+                    text += `<h3>Товар ${basketList[i].product}</h3>
+                                            <p>Бренд: ${basketList[i].brand}</p>
+                                            <p>Цвет:</p> <font color="${basketList[i].color}">${basketList[i].color}</font>
+                                            <p>Цена: ${basketList[i].price}</p><hr>`
+                    basketItem.innerHTML = text
+                    let btn = document.createElement('button')
+                    btn.setAttribute('id', `removeBtn${i}`)
+                    btn.innerText = `удалить товар ${basketList[i].product} из корзины`
+                    basketItem.append(btn)
+                    basketContent.append(basketItem)
+                }
+                let removeButtons = document.querySelectorAll('[id^=removeBtn]')
+                for (let btn of removeButtons) {
+                    btn.addEventListener('click', removeProductFromBasket)
+                }
+            }
+            document.getElementById("totalNumberOfGoods").innerText = `всего товаров: ${basketList.length}`
+            document.getElementById("totalCost").innerText = `общая стоимость: ${getBasketTotalCoast()}` // ${() => { let a = 0; for (let pr of basketList) { a += pr.price }; return a}}`
+            console.log('basket is refreshed')
+        }
+
+        function getBasketTotalCoast() {
+            //подсчет суммы цен товаров в корзине
+            let tc = 0
+            for (let pr of basketList) {
+                tc += pr.price
+            }
+            return tc
+        }
+        function addProductIntoBasket(e) {
+            //здесь происходит получение идентификатора кнопки, которая сработала
+            //и, одновременно, id выбранного товара и добавление этого товара в массив-корзину товаров
+            console.log(e)
+            let id = e.target.id.substring(6)  //mask 'button0'
+            // button's and product's numbers are the same
+            console.log(id)
+            basketList.push(prods[id])
+            refreshBasket()
+            console.log('Item is added into basket')
+            for (let pr of basketList) {
+                console.log(pr)
+            }
+        }
+        function removeProductFromBasket(e) {
+            let id = e.target.id.substring(9)  //mask 'removeBtn0'
+            console.log(id)
+            basketList.splice(prods[id], 1)
+            refreshBasket()
+            console.log('Item is removed from basket')
+        }
+
+        function clearBasket() {
+            //очистка корзины
+            console.log('clear basket button is clicked')
+            basketList = []
+            //basketContent.innerHTML = ''
+            refreshBasket()
+            console.log(basketList.length)
+        }
+
+        /*function addHandlersToShowButton() {
+            //это обработчик кнопки показа каталога и корзины
+            document.getElementById('show_catalogue').addEventListener('click', showCatalogue)
+        }
+        //функция показа каталога и корзины соединяется с соответствующей кнопкой по загрузке окна
+        window.addEventListener('load', addHandlersToShowButton)*/
+
+        function modalWindow() {
+            var mWindow = document.createElement('div')
+            mWindow.setAttribute('style',
+                'position: fixed; top: 10%; bottom: 90%; left: 10%; right:90%;')
+            var bigPic = document.createElement('div')
+            bigPic.innerHTML = '<img src="box1" size="300" border="1"/>'
+            mWindow.append(bigPic)
+            var picRibbon = document.createElement('div')
+            picRibbon.setAttribute('style', 'diplay: flex')
+            var buttonLeft = document.createElement('button')
+            buttonLeft.setAttribute(id, 'bLeft')
+            buttonLeft.innerText = "<"
+            var pic1 = document.createElement('img')
+            pic1.setAttribute('id', 'pic1')
+            pic1.innerHTML = '<img src="box1.jpg" width="30" border="1"/>'
+            var pic2 = document.createElement('img')
+            pic2.setAttribute('id', 'pic2')
+            pic2.innerHTML = '<img src="box2.jpg" width="30" border="1"/>'
+            var buttonRight = document.createElement('button')
+            buttonRight.innerText = '>'
+            picRibbon.append(buttonLeft, pic1, pic2, buttonRight)
+            mWindow.append(picRibbon)
+
+        }
+
+        window.addEventListener('load', showCatalogue)
+    </script>
+</body>
+</html>
